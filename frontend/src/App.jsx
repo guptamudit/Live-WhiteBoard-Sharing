@@ -1,10 +1,11 @@
 import "./App.css";
+import JoinRoom from "./components/Forms/JoinRoomForm/JoinRoom";
 
 const App = () => {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div className="container">
+      <JoinRoom />
+    </div>
   );
 };
 
