@@ -13,25 +13,15 @@ const JoinRoom = () => {
       </div>
 
       <div className="form-group border ">
-        <div className="input-group d-flex align-items-center justify-content-center">
-          <input
-            type="text"
-            className="form-control my-2 border-0 "
-            // disabled
-            placeholder="Generate Room Code"
-          />
-          <div className="input-group-append  ">
-            <button className="btn btn-primary  me-1" type="button">
-              Generate
-            </button>
-            <button type="button" className="btn btn-outline-danger  me-1 ">
-              Copy
-            </button>
-          </div>
-        </div>
+        <input
+          type="text"
+          className="form-control my-2 border-0 "
+          // disabled
+          placeholder="Enter Room Code"
+        />
       </div>
       <button type="submit" className="mt-4 btn-primary form-control ">
-        Generate Room
+        Join Room
       </button>
     </form>
   );
