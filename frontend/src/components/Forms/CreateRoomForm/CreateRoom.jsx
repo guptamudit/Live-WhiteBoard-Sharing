@@ -1,6 +1,7 @@
 import React from "react";
+import "./CreateRoom.css";
 
-const JoinRoom = () => {
+const CreateRoom = () => {
   return (
     <form className="form col-md-12 mt-5">
       <div className="form-group">
@@ -36,4 +37,4 @@ const JoinRoom = () => {
   );
 };
 
-export default JoinRoom;
+export default CreateRoom;
