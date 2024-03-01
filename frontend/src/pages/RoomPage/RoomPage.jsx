@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import "./RoomPage.css";
+import Whiteboard from "../../components/Whiteboard/Whiteboard";
 
 const RoomPage = () => {
   const [tool, setTool] = useState("Pencil");
-  const [color, setColor] = useState("Black");
+  const [color, setColor] = useState("black");
 
   return (
     <div className="container">
       <div className="row">
-        <h1 className="text-center py-5">White Board Sharing App</h1>
-        <div className="col-md-12 gap-3 px-5  mt-4 mb-5 d-flex align-items-center justify-content-between">
-          <div className="d-flex col-md-2  justify-content-between gap-1">
+        <h1 className="text-center py-3">
+          White Board Sharing App{" "}
+          <span className="text-danger-emphasis">[Users Online: 0]</span>
+        </h1>
+        <div className="col-md-10 mx-auto  px-5   mb-3 d-flex align-items-center justify-content-center">
+          <div className="d-flex col-md-2  justify-content-center gap-1">
             <div className="d-flex gap-1 ">
               <label htmlFor="Pencil">Pencil</label>
               <input
                 type="radio"
                 name="tool"
+                checked={tool === "Pencil"}
                 value="Pencil"
                 id="Pencil"
                 className="mt-1"
@@ -28,6 +33,7 @@ const RoomPage = () => {
                 type="radio"
                 name="tool"
                 value="Line"
+                checked={tool === "Line"}
                 id="Line"
                 className="mt-1"
                 onChange={(e) => setTool(e.target.value)}
@@ -38,15 +44,16 @@ const RoomPage = () => {
               <input
                 type="radio"
                 name="tool"
-                value="Rectangle"
-                id="Rectangle"
+                value="Rect"
+                id="Rect"
+                checked={tool === "Rect"}
                 className="mt-1"
                 onChange={(e) => setTool(e.target.value)}
               />
             </div>
           </div>
-          <div className="col-md-7">
-            <div className="d-flex  align-items-center">
+          <div className="col-md-3 mx-auto">
+            <div className="d-flex  align-items-center justify-content-center ">
               <label htmlFor="color">Select Color: </label>
               <input
                 type="color"
@@ -61,6 +68,12 @@ const RoomPage = () => {
             <button className="btn btn-primary mt-1">Undo</button>
             <button className="btn btn-outline-primary mt-1">Redo</button>
           </div>
+          <div className="col-md-2">
+            <button className="btn btn-danger">Clear Canvas</button>
+          </div>
+        </div>
+        <div className="col-md-10 mx-auto mt-2 canvas-box">
+          <Whiteboard />
         </div>
       </div>
     </div>
