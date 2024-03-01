@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Form from "./components/Forms/Form.jsx";
+import RoomPage from "./pages/RoomPage/RoomPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/:roomId",
-    element: <Form />,
+    element: <RoomPage />,
   },
 ]);
 
