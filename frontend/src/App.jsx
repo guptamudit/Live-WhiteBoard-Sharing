@@ -10,3 +10,5 @@
 // };
 
 // export default App;
+
+//this is a template page!
