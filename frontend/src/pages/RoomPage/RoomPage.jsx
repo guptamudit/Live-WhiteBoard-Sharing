@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./RoomPage.css";
 import Whiteboard from "../../components/Whiteboard/Whiteboard";
 
 const RoomPage = () => {
+  const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
+
   const [tool, setTool] = useState("Pencil");
   const [color, setColor] = useState("black");
 
