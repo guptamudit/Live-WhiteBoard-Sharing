@@ -8,6 +8,7 @@ const RoomPage = () => {
 
   const [tool, setTool] = useState("Pencil");
   const [color, setColor] = useState("black");
+  const [elements, setElements] = useState([]);
 
   return (
     <div className="container">
@@ -76,7 +77,12 @@ const RoomPage = () => {
           </div>
         </div>
         <div className="col-md-10 mx-auto mt-2 canvas-box">
-          <Whiteboard />
+          <Whiteboard
+            canvasRef={canvasRef}
+            ctxRef={ctxRef}
+            elements={elements}
+            setElements={setElements}
+          />
         </div>
       </div>
     </div>
