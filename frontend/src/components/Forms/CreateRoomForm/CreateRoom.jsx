@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CreateRoom.css";
 
-const CreateRoom = () => {
+const CreateRoom = ({ uuid, socket, setUser }) => {
+  const [roomId, setRoomId] = useState(uuid());
+  const [name, setName] = useState("");
+
+  const handleCreateRoom = (e) => {
+    e.preventDefault();
+
+    const roomData = {
+      name,
+      roomId,
+      userId: uuid(),
+      host: true,
+      presenter: true,
+    };
+    setUser(roomData);
+    socket.emit("userJoined", roomData);
+  };
+
   return (
     <form className="form col-md-12 mt-5">
       <div className="form-group">
@@ -9,6 +26,8 @@ const CreateRoom = () => {
           type="text"
           className="form-control my-2"
           placeholder="Enter Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 
@@ -17,11 +36,16 @@ const CreateRoom = () => {
           <input
             type="text"
             className="form-control my-2 border-0 "
-            // disabled
+            value={roomId}
+            disabled
             placeholder="Generate Room Code"
           />
           <div className="input-group-append  ">
-            <button className="btn btn-primary  me-1" type="button">
+            <button
+              className="btn btn-primary  me-1"
+              onClick={() => setRoomId(uuid())}
+              type="button"
+            >
               Generate
             </button>
             <button type="button" className="btn btn-outline-danger  me-1 ">
@@ -30,7 +54,11 @@ const CreateRoom = () => {
           </div>
         </div>
       </div>
-      <button type="submit" className="mt-4 btn-primary form-control ">
+      <button
+        type="submit"
+        onClick={handleCreateRoom}
+        className="mt-4 btn-primary form-control "
+      >
         Generate Room
       </button>
     </form>
