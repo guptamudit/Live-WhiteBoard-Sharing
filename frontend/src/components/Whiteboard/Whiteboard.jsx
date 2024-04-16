@@ -4,7 +4,14 @@ import rough from "roughjs";
 
 const roughGenerator = rough.generator();
 
-const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
+const Whiteboard = ({
+  canvasRef,
+  ctxRef,
+  elements,
+  setElements,
+  tool,
+  color,
+}) => {
   const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
@@ -13,8 +20,16 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
     canvas.width = window.innerWidth;
     const ctx = canvas.getContext("2d");
 
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.linrCap = "round";
+
     ctxRef.current = ctx;
   }, []);
+
+  useEffect(() => {
+    ctxRef.current.strokeStyle = color;
+  }, [color]);
 
   useLayoutEffect(() => {
     const roughCanvas = rough.canvas(canvasRef.current);
@@ -30,14 +45,23 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
 
     elements.forEach((element) => {
       if (element.type === "Pencil") {
-        roughCanvas.linearPath(element.path);
+        roughCanvas.linearPath(element.path, {
+          stroke: element.stroke,
+          strokeWidth: 5,
+          roughness: 0,
+        });
       } else if (element.type === "Line") {
         roughCanvas.draw(
           roughGenerator.line(
             element.offsetX,
             element.offsetY,
             element.width,
-            element.height
+            element.height,
+            {
+              stroke: element.stroke,
+              strokeWidth: 5,
+              roughness: 0,
+            }
           )
         );
       } else if (element.type === "Rect") {
@@ -46,7 +70,12 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
             element.offsetX,
             element.offsetY,
             element.width,
-            element.height
+            element.height,
+            {
+              stroke: element.stroke,
+              strokeWidth: 5,
+              roughness: 0,
+            }
           )
         );
       }
@@ -64,7 +93,7 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetX,
           offsetY,
           path: [[offsetX, offsetY]],
-          stroke: "black",
+          stroke: color,
         },
       ]);
     } else if (tool === "Line") {
@@ -76,7 +105,7 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetY,
           width: offsetX,
           height: offsetY,
-          stroke: "black",
+          stroke: color,
         },
       ]);
     } else if (tool === "Rect") {
@@ -88,7 +117,7 @@ const Whiteboard = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetY,
           width: 0,
           height: 0,
-          stroke: "black",
+          stroke: color,
         },
       ]);
     }

@@ -9,6 +9,34 @@ const RoomPage = () => {
   const [tool, setTool] = useState("Pencil");
   const [color, setColor] = useState("black");
   const [elements, setElements] = useState([]);
+  const [history, setHistory] = useState([]);
+
+  const handleClearCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    ctx.fillRect = "white";
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+    setElements([]);
+  };
+
+  const undo = () => {
+    setHistory((prevHistory) => [
+      ...prevHistory,
+      elements[elements.length - 1],
+    ]);
+    setElements((prevElements) =>
+      prevElements.slice(0, prevElements.length - 1)
+    );
+  };
+
+  const redo = () => {
+    setElements((prevElements) => [
+      ...prevElements,
+      history[history.length - 1],
+    ]);
+    setHistory((prevHistory) => prevHistory.slice(0, prevHistory.length - 1));
+  };
 
   return (
     <div className="container">
@@ -69,11 +97,25 @@ const RoomPage = () => {
             </div>
           </div>
           <div className="col-md-3 d-flex gap-2 ">
-            <button className="btn btn-primary mt-1">Undo</button>
-            <button className="btn btn-outline-primary mt-1">Redo</button>
+            <button
+              className="btn btn-primary mt-1"
+              disabled={elements.length === 0}
+              onClick={() => undo()}
+            >
+              Undo
+            </button>
+            <button
+              className="btn btn-outline-primary mt-1"
+              disabled={history.length < 1}
+              onClick={() => redo()}
+            >
+              Redo
+            </button>
           </div>
           <div className="col-md-2">
-            <button className="btn btn-danger">Clear Canvas</button>
+            <button className="btn btn-danger" onClick={handleClearCanvas}>
+              Clear Canvas
+            </button>
           </div>
         </div>
         <div className="col-md-10 mx-auto mt-2 canvas-box">
@@ -83,6 +125,7 @@ const RoomPage = () => {
             elements={elements}
             setElements={setElements}
             tool={tool}
+            color={color}
           />
         </div>
       </div>
