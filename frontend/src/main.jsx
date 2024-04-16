@@ -55,7 +55,7 @@ const App = () => {
     },
     {
       path: "/:roomId",
-      element: <RoomPage />,
+      element: <RoomPage user={user} socket={socket} />,
     },
   ]);
 

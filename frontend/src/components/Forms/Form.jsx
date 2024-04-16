@@ -12,7 +12,7 @@ const Form = ({ uuid, socket, setUser }) => {
       </div>
       <div className="col-md-4 mx-auto p-5 mt-5 form-box border border-2 border-danger  rounded-2 d-flex flex-column align-items-center">
         <h1 className="text-primary fw-bold">Join Room</h1>
-        <JoinRoom />
+        <JoinRoom uuid={uuid} socket={socket} setUser={setUser} />
       </div>
     </div>
   );
