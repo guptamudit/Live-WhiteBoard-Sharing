@@ -4,18 +4,45 @@ import io from "socket.io-client";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import Form from "./components/Forms/Form.jsx";
 import RoomPage from "./pages/RoomPage/RoomPage.jsx";
 
+const server = "http://localhost:5000";
+const connectionOptions = {
+  "force new connection": true,
+  reconnectionAttempts: `Infinity`,
+  timeout: 10000,
+  transports: ["websocket"],
+};
+
+const socket = io(server, connectionOptions);
+
 const App = () => {
-  const server = "http://localhost:5000";
-  const connectionOptions = {
-    "force new Connection": true,
-    reconnectionAttempts: "Infinity",
-    timeout: 10000,
-    transports: ["websocket"],
-  };
+  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    socket.on("userIsJoined", (data) => {
+      if (data.success) {
+        console.log("userJoined");
+        setUsers(data.users);
+      } else {
+        console.log("UserJoin Error");
+      }
+    });
+
+    socket.on("allUsers", (data) => {
+      setUsers(data);
+    });
+
+    // Clean up socket listeners
+    return () => {
+      socket.off("userIsJoined");
+      socket.off("allUsers");
+    };
+  }, []);
 
   const uuid = () => {
     let S4 = () => {
@@ -36,33 +63,20 @@ const App = () => {
       S4()
     );
   };
-  const [user, setUser] = useState(null);
-  const socket = io(server, connectionOptions);
-  useEffect(() => {
-    socket.on("userIsJoined", (data) => {
-      if (data.success) {
-        console.log("userJoined");
-      } else {
-        console.log("UserJoin Error");
-      }
-    });
-  }, []);
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Form uuid={uuid} setUser={setUser} socket={socket} />,
-    },
-    {
-      path: "/:roomId",
-      element: <RoomPage user={user} socket={socket} />,
-    },
-  ]);
 
   return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Form uuid={uuid} setUser={setUser} socket={socket} />}
+        />
+        <Route
+          path="/:roomId"
+          element={<RoomPage user={user} socket={socket} users={users} />}
+        />
+      </Routes>
+    </Router>
   );
 };
 

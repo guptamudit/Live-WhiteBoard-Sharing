@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import "./RoomPage.css";
 import Whiteboard from "../../components/Whiteboard/Whiteboard";
 
-const RoomPage = ({ user, socket }) => {
+const RoomPage = ({ user, socket, users }) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
@@ -43,7 +43,9 @@ const RoomPage = ({ user, socket }) => {
       <div className="row">
         <h1 className="text-center py-3">
           White Board Sharing App{" "}
-          <span className="text-danger-emphasis">[Users Online: 0]</span>
+          <span className="text-danger-emphasis">
+            Users Online: {users.length}
+          </span>
         </h1>
         {user?.presenter && (
           <div className="col-md-10 mx-auto  px-5   mb-3 d-flex align-items-center justify-content-center">
