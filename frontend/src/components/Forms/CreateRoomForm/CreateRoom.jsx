@@ -23,6 +23,16 @@ const CreateRoom = ({ uuid, socket, setUser }) => {
     console.log(roomData);
     socket.emit("userJoined", roomData);
   };
+  const copyRoomId = () => {
+    navigator.clipboard
+      .writeText(roomId)
+      .then(() => {
+        alert("Room ID copied to clipboard");
+      })
+      .catch((err) => {
+        console.error("Could not copy text: ", err);
+      });
+  };
 
   return (
     <form className="form col-md-12 mt-5">
@@ -53,7 +63,11 @@ const CreateRoom = ({ uuid, socket, setUser }) => {
             >
               Generate
             </button>
-            <button type="button" className="btn btn-outline-danger  me-1 ">
+            <button
+              onClick={copyRoomId}
+              type="button"
+              className="btn btn-outline-danger  me-1 "
+            >
               Copy
             </button>
           </div>
