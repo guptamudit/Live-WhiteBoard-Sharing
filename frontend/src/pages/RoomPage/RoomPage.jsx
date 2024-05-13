@@ -10,6 +10,7 @@ const RoomPage = ({ user, socket, users }) => {
   const [color, setColor] = useState("black");
   const [elements, setElements] = useState([]);
   const [history, setHistory] = useState([]);
+  const [openendUserTab, setOpenedUserTab] = useState(false);
 
   const handleClearCanvas = () => {
     const canvas = canvasRef.current;
@@ -41,6 +42,43 @@ const RoomPage = ({ user, socket, users }) => {
   return (
     <div className="container">
       <div className="row">
+        <button
+          type="button"
+          className="btn btn-dark "
+          style={{
+            display: "block",
+            position: "absolute",
+            top: "5%",
+            left: "5%",
+            height: "40px",
+            width: "100px",
+          }}
+          onClick={() => setOpenedUserTab(true)}
+        >
+          {" "}
+          Users
+        </button>
+        {openendUserTab && (
+          <div
+            className="position-fixed top-0  bg-dark text-white"
+            style={{ width: "250px", left: "0", height: "100%" }}
+          >
+            <button
+              type="button"
+              className="btn btn-light btn-block w-100 mt-5"
+              onClick={() => setOpenedUserTab(false)}
+            >
+              Close
+            </button>
+            <div className="w-100  pt-3">
+              {users.map((usr, index) => (
+                <p key={index * 999} className="my-2 text-center  w-100">
+                  {usr.name} {user && user.userId == usr.userId && "(You)"}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
         <h1 className="text-center py-3">
           White Board Sharing App{" "}
           <h4 className="text-danger-emphasis">Users Online: {users.length}</h4>
