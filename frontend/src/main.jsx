@@ -5,6 +5,8 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "react-toastify/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 import Form from "./components/Forms/Form.jsx";
 import RoomPage from "./pages/RoomPage/RoomPage.jsx";
@@ -37,6 +39,10 @@ const App = () => {
       setUsers(data);
     });
 
+    socket.on("UserJoinedMessageBroadcasted", (data) => {
+      toast.info(`${data} Joined the Room.`);
+    });
+
     // Clean up socket listeners
     return () => {
       socket.off("userIsJoined");
@@ -66,6 +72,7 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         <Route
           path="/"
