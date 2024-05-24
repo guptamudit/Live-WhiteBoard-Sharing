@@ -43,6 +43,10 @@ const App = () => {
       toast.info(`${data} Joined the Room.`);
     });
 
+    socket.on("UserLeftMessageBroadcasted", (data) => {
+      toast.info(`${data} Left the Room.`);
+    });
+
     // Clean up socket listeners
     return () => {
       socket.off("userIsJoined");
